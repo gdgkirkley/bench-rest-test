@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 function Layout({ children }: React.PropsWithChildren<any>) {
   return (
     <>
+      <header>Bench Test</header>
       <main>{children}</main>
       <GlobalStyle />
     </>
@@ -19,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
         --grey1: #555559;
         --grey2: #a2a2a4;
 
-        --bgColour: var(--accent);
+        --bgColour: var(--accent1);
         --textColour: var(--grey1);
 
         html {
@@ -32,13 +33,21 @@ const GlobalStyle = createGlobalStyle`
         body {
             padding: 0;
             margin: 0;
-            font-size: 1.8rem;
+            font-size: 1.1rem;
             color: var(--textColour);
             line-height: 1.5;
             font-family: Arial, Helvetica, sans-serif;
             font-weight: 400;
             min-height: 100vh;
-            background: var(--background);
+            background: var(--bgColour);
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            background: var(--primary1);
+            min-height: 5rem;
         }
         main {
             margin: 2rem auto 4rem;
