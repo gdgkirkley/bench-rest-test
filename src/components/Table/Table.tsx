@@ -5,6 +5,7 @@ interface Columns {
   [key: string]: {
     name: string;
     property: string;
+    formatter?: (value: string) => string;
   };
 }
 
@@ -34,7 +35,11 @@ const TableRow = ({ header = false, columns, item }: TableRowProps) => {
   return (
     <TableRowStyled role="row">
       {Object.values(columns).map((column) => (
-        <TableCell role={header ? "columnheader" : "cell"}>
+        <TableCell
+          role={header ? "columnheader" : "cell"}
+          header={header}
+          formatter={column.formatter}
+        >
           {header ? column.name : item[column.property]}
         </TableCell>
       ))}
@@ -42,8 +47,21 @@ const TableRow = ({ header = false, columns, item }: TableRowProps) => {
   );
 };
 
-const TableCell = ({ children, ...props }: React.PropsWithChildren<any>) => {
-  return <TableCellStyled {...props}>{children}</TableCellStyled>;
+const TableCell = ({
+  formatter,
+  header,
+  children,
+  ...props
+}: React.PropsWithChildren<any>) => {
+  const format = () => {
+    if (formatter && !header) {
+      return formatter(children);
+    } else {
+      return children;
+    }
+  };
+
+  return <TableCellStyled {...props}>{format()}</TableCellStyled>;
 };
 
 export default Table;

@@ -2,6 +2,8 @@ import * as React from "react";
 import Layout from "./components/Layout";
 import Table from "./components/Table";
 import useTransactionData from "./hooks/useTransationData";
+import { formatDate } from "./utils/date";
+import { formatMoney } from "./utils/money";
 
 function App() {
   const { state, fetchMore } = useTransactionData();
@@ -24,6 +26,7 @@ function App() {
       Date: {
         name: "Date",
         property: "Date",
+        formatter: formatDate,
       },
       Company: {
         name: "Company",
@@ -37,6 +40,7 @@ function App() {
         // TODO make dynamic amount
         name: "$39,664.53",
         property: "Amount",
+        formatter: formatMoney,
       },
     };
 
