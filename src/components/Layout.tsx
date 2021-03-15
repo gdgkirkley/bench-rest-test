@@ -36,10 +36,10 @@ const GlobalStyle = createGlobalStyle`
         body {
             padding: 0;
             margin: 0;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--textColour);
             line-height: 1.5;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: "Roboto", Arial, Helvetica, sans-serif;
             font-weight: 400;
             min-height: 100vh;
             background: var(--bgColour);
@@ -58,6 +58,46 @@ const GlobalStyle = createGlobalStyle`
             width: 1600px;
             z-index: 2;
         }
+    }
+
+    /* roboto-regular - latin */
+    @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/roboto-v20-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local(''),
+        url('../fonts/roboto-v20-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../fonts/roboto-v20-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../fonts/roboto-v20-latin-regular.woff') format('woff'), /* Modern Browsers */
+        url('../fonts/roboto-v20-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../fonts/roboto-v20-latin-regular.svg#Roboto') format('svg'); /* Legacy iOS */
+    }
+    /* roboto-500 - latin */
+    @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../fonts/roboto-v20-latin-500.eot'); /* IE9 Compat Modes */
+    src: local(''),
+        url('../fonts/roboto-v20-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../fonts/roboto-v20-latin-500.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../fonts/roboto-v20-latin-500.woff') format('woff'), /* Modern Browsers */
+        url('../fonts/roboto-v20-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../fonts/roboto-v20-latin-500.svg#Roboto') format('svg'); /* Legacy iOS */
+    }
+    /* roboto-700 - latin */
+    @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/roboto-v20-latin-700.eot'); /* IE9 Compat Modes */
+    src: local(''),
+        url('../fonts/roboto-v20-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../fonts/roboto-v20-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../fonts/roboto-v20-latin-700.woff') format('woff'), /* Modern Browsers */
+        url('../fonts/roboto-v20-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../fonts/roboto-v20-latin-700.svg#Roboto') format('svg'); /* Legacy iOS */
     }
 `;
 

@@ -14,14 +14,15 @@ export const TableRowStyled = styled.div`
   color: var(--grey2);
 
   &:hover {
-    color: var(--primary1);
+    color: var(--primary2);
     font-weight: 500;
   }
 `;
 
 export const TableCellStyled = styled.span`
   &[role="columnheader"] {
-    color: var(--primary1);
+    color: var(--primary2);
     font-weight: 600;
+    font-size: 1rem;
   }
 `;
