@@ -7,17 +7,13 @@ type APIResponse = {
   transactions: Transaction[];
 };
 
-interface APIResponsePages extends APIResponse {
-  totalPages?: number;
-}
-
 type useTransactionDataProps = {
   initialState?: useTransactionReducerState;
 };
 
 type useTransactionReducerState = {
   status: keyof typeof actionTypes;
-  data?: APIResponsePages | null;
+  data?: APIResponse | null;
   error?: Error | null;
 };
 
@@ -49,8 +45,6 @@ function reducer(
         throw new Error("Must pass data to resolved action type");
       }
 
-      console.log(state, action.data);
-
       return {
         status: "resolved",
         data: {
@@ -73,18 +67,21 @@ function getUpdatedTransactions(
   state: useTransactionReducerState,
   action: useTransactionReducerAction
 ) {
-  let prevTransactions: Transaction[] = [];
-  let transactions: Transaction[] = [];
+  let transactions = new Map<String, Transaction>();
 
   if (state.data?.transactions) {
-    prevTransactions = [...state.data?.transactions];
+    for (let transaction of state.data.transactions) {
+      transactions.set(JSON.stringify(transaction), transaction);
+    }
   }
 
   if (action.data?.transactions) {
-    transactions = [...prevTransactions, ...action.data.transactions];
+    for (let transaction of action.data.transactions) {
+      transactions.set(JSON.stringify(transaction), transaction);
+    }
   }
 
-  return transactions;
+  return Array.from(transactions.values());
 }
 
 function useTransactionData({ initialState }: useTransactionDataProps = {}) {

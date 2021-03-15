@@ -50,6 +50,8 @@ const AccountInfo = () => {
       return <p>Loading...</p>;
     }
     case "rejected": {
+      // TODO Add error tracking
+      console.log(error);
       return <p>There was an error loading transaction data.</p>;
     }
     case "idle": {
