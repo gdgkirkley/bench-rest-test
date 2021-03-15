@@ -5,7 +5,7 @@ import { formatDate } from "../utils/date";
 import { formatMoney } from "../utils/money";
 
 const AccountInfo = () => {
-  const { data, status, error } = useTransactionData();
+  const { data, status } = useTransactionData();
 
   const transactions = data?.transactions ? data.transactions : [];
   const total = transactions.reduce(
@@ -50,9 +50,14 @@ const AccountInfo = () => {
       return <p>Loading...</p>;
     }
     case "rejected": {
-      // TODO Add error tracking
-      console.log(error);
-      return <p>There was an error loading transaction data.</p>;
+      // For this case, we want to display an error message if all
+      // transactions can't be resolved because the account total
+      // would be incorrect.
+      return (
+        <p>
+          There was an error loading transaction data. Please try again later.
+        </p>
+      );
     }
     case "idle": {
       return <p>Waiting to get data</p>;

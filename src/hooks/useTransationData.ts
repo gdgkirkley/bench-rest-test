@@ -30,7 +30,14 @@ const actionTypes = {
   rejected: "rejected",
 };
 
+/*
+ Warning: this will work as long as the API returns 10
+ transactions per page. To keep the logic from becoming overly
+ complicated for this case, we will assume that we know it's
+ always going to return 10 transactions per page.
+*/
 const maxTransactionsPerPage = 10;
+const initialPage = 1;
 
 function reducer(
   state: useTransactionReducerState,
@@ -67,21 +74,29 @@ function getUpdatedTransactions(
   state: useTransactionReducerState,
   action: useTransactionReducerAction
 ) {
-  let transactions = new Map<String, Transaction>();
+  if (
+    action.data?.totalCount &&
+    state.data?.transactions.length &&
+    action.data.totalCount === state.data.transactions.length
+  ) {
+    return state.data.transactions;
+  }
+
+  let transactions: Transaction[] = [];
 
   if (state.data?.transactions) {
     for (let transaction of state.data.transactions) {
-      transactions.set(JSON.stringify(transaction), transaction);
+      transactions.push(transaction);
     }
   }
 
   if (action.data?.transactions) {
     for (let transaction of action.data.transactions) {
-      transactions.set(JSON.stringify(transaction), transaction);
+      transactions.push(transaction);
     }
   }
 
-  return Array.from(transactions.values());
+  return transactions;
 }
 
 function useTransactionData({ initialState }: useTransactionDataProps = {}) {
@@ -113,8 +128,8 @@ function useTransactionData({ initialState }: useTransactionDataProps = {}) {
       );
     }
 
-    getData(1);
-  }, [dispatch]);
+    getData(initialPage);
+  }, []);
 
   return { ...state };
 }

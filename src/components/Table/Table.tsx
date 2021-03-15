@@ -78,7 +78,7 @@ const TableCell = ({
     <TableCellStyled
       {...props}
       style={{
-        fontWeight: highlighted ? "500" : "400",
+        fontWeight: highlighted && !header ? "500" : "",
       }}
     >
       {format()}

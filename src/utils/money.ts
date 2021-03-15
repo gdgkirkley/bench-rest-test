@@ -4,6 +4,5 @@ export const formatMoney = (amount: string) => {
     currency: "CAD",
   });
 
-  const value = Number(amount);
-  return formatter.format(value);
+  return formatter.format(Number(amount));
 };
