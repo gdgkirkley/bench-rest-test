@@ -1,41 +1,52 @@
 import * as React from "react";
 import { TableStyled, TableRowStyled, TableCellStyled } from "./styles";
 
-interface Columns {
-  [key: string]: {
-    name: string;
-    property: string;
-    formatter?: (value: string) => string;
-  };
+interface Column {
+  name: string;
+  property: string;
+  highlight?: boolean;
+  formatter?: (value: string) => string;
 }
 
 interface TableProps {
   data: Transaction[];
-  columns: Columns;
+  columns: Array<Column>;
+  accessibleDescription: string;
 }
 
-const Table = ({ data, columns }: TableProps) => {
+interface TableRowProps {
+  header?: boolean;
+  columns: Array<Column>;
+  item?: any;
+}
+
+const Table = ({ data, columns, accessibleDescription }: TableProps) => {
   return (
-    <TableStyled role="table" aria-rowcount={data.length}>
+    <TableStyled
+      role="table"
+      aria-label={accessibleDescription}
+      aria-rowcount={data.length}
+    >
       <TableRow header={true} columns={columns} />
       {data.length
-        ? data.map((item) => <TableRow columns={columns} item={item} />)
+        ? data.map((item, index) => (
+            <TableRow
+              key={`${index}-${item.Company}-${item.Date}-${item.Amount}`}
+              columns={columns}
+              item={item}
+            />
+          ))
         : null}
     </TableStyled>
   );
 };
 
-interface TableRowProps {
-  header?: boolean;
-  columns: Columns;
-  item?: any;
-}
-
 const TableRow = ({ header = false, columns, item }: TableRowProps) => {
   return (
     <TableRowStyled role="row">
-      {Object.values(columns).map((column) => (
+      {columns.map((column) => (
         <TableCell
+          key={column.name}
           role={header ? "columnheader" : "cell"}
           header={header}
           formatter={column.formatter}

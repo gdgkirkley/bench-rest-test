@@ -1,14 +1,11 @@
 const endpoint = "https://resttest.bench.co/transactions";
 const fileType = ".json";
 
-async function client(page: number, { ...customConfig } = {}) {
-  const config = {
-    method: "GET",
-    ...customConfig,
-  };
-
+async function client(page: number) {
   return window
-    .fetch(`${endpoint}/${page}${fileType}`, config)
+    .fetch(`${endpoint}/${page}${fileType}`, {
+      method: "GET",
+    })
     .then(async (response) => {
       const data = await response.json();
 
