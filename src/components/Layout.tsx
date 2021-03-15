@@ -19,6 +19,9 @@ const GlobalStyle = createGlobalStyle`
         --accent2: #f7f6f4;
         --grey1: #555559;
         --grey2: #a2a2a4;
+        --grey3: #f5f5f5;
+
+        --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
         --bgColour: var(--accent1);
         --textColour: var(--grey1);
@@ -33,7 +36,7 @@ const GlobalStyle = createGlobalStyle`
         body {
             padding: 0;
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--textColour);
             line-height: 1.5;
             font-family: Arial, Helvetica, sans-serif;
