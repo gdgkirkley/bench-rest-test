@@ -22,6 +22,7 @@ const AccountInfo = () => {
     {
       name: "Company",
       property: "Company",
+      highlighted: true,
     },
     {
       name: "Account",
@@ -31,6 +32,7 @@ const AccountInfo = () => {
       name: formatMoney(total.toString()),
       property: "Amount",
       formatter: formatMoney,
+      highlighted: true,
     },
   ];
 

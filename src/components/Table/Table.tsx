@@ -4,7 +4,7 @@ import { TableStyled, TableRowStyled, TableCellStyled } from "./styles";
 interface Column {
   name: string;
   property: string;
-  highlight?: boolean;
+  highlighted?: boolean;
   formatter?: (value: string) => string;
 }
 
@@ -50,6 +50,7 @@ const TableRow = ({ header = false, columns, item }: TableRowProps) => {
           role={header ? "columnheader" : "cell"}
           header={header}
           formatter={column.formatter}
+          highlighted={column.highlighted}
         >
           {header ? column.name : item[column.property]}
         </TableCell>
@@ -62,6 +63,7 @@ const TableCell = ({
   formatter,
   header,
   children,
+  highlighted,
   ...props
 }: React.PropsWithChildren<any>) => {
   const format = () => {
@@ -72,7 +74,16 @@ const TableCell = ({
     }
   };
 
-  return <TableCellStyled {...props}>{format()}</TableCellStyled>;
+  return (
+    <TableCellStyled
+      {...props}
+      style={{
+        fontWeight: highlighted ? "500" : "400",
+      }}
+    >
+      {format()}
+    </TableCellStyled>
+  );
 };
 
 export default Table;
