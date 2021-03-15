@@ -7,7 +7,7 @@ import { formatMoney } from "../utils/money";
 const AccountInfo = () => {
   const { data, status, error } = useTransactionData();
 
-  const transactions = data?.transactions ? data?.transactions : [];
+  const transactions = data?.transactions ? data.transactions : [];
   const total = transactions.reduce(
     (acc, value) => (acc += Number(value.Amount)),
     0
@@ -37,14 +37,6 @@ const AccountInfo = () => {
   ];
 
   switch (status) {
-    case "loading": {
-      return <p>Loading...</p>;
-    }
-    case "rejected": {
-      return (
-        <p>There was an error loading transaction data: {error?.message}.</p>
-      );
-    }
     case "resolved": {
       return (
         <Table
@@ -54,11 +46,17 @@ const AccountInfo = () => {
         />
       );
     }
+    case "loading": {
+      return <p>Loading...</p>;
+    }
+    case "rejected": {
+      return <p>There was an error loading transaction data.</p>;
+    }
     case "idle": {
       return <p>Waiting to get data</p>;
     }
     default: {
-      return <p>Inaccessible</p>;
+      return <p>Something went wrong...</p>;
     }
   }
 };

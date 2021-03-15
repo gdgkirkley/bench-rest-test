@@ -34,57 +34,39 @@ const actionTypes = {
   rejected: "rejected",
 };
 
+const maxTransactionsPerPage = 10;
+
 function reducer(
   state: useTransactionReducerState,
   action: useTransactionReducerAction
 ): useTransactionReducerState {
   switch (action.type) {
     case actionTypes.loading: {
-      return { status: "loading", data: null, error: null };
+      return { status: "loading", data: state.data, error: null };
     }
     case actionTypes.resolved: {
+      if (!action.data) {
+        throw new Error("Must pass data to resolved action type");
+      }
+
+      console.log(state, action.data);
+
       return {
         status: "resolved",
-        data: action.data
-          ? {
-              ...action.data,
-              totalPages: getTotalPages(state, action),
-              transactions: getUpdatedTransactions(state, action),
-            }
-          : null,
+        data: {
+          ...action.data,
+          transactions: getUpdatedTransactions(state, action),
+        },
         error: null,
       };
     }
     case actionTypes.rejected: {
-      return { status: "rejected", data: null, error: action.error };
+      return { status: "rejected", data: state.data, error: action.error };
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
   }
-}
-
-function getTotalPages(
-  state: useTransactionReducerState,
-  action: useTransactionReducerAction
-) {
-  let totalPages;
-
-  if (state.data?.totalPages) {
-    totalPages = state.data.totalPages;
-  }
-
-  if (
-    !totalPages &&
-    action.data?.totalCount &&
-    action.data?.transactions.length
-  ) {
-    totalPages = Math.round(
-      action.data.totalCount / action.data.transactions.length
-    );
-  }
-
-  return totalPages;
 }
 
 function getUpdatedTransactions(
@@ -101,6 +83,7 @@ function getUpdatedTransactions(
   if (action.data?.transactions) {
     transactions = [...prevTransactions, ...action.data.transactions];
   }
+
   return transactions;
 }
 
@@ -112,27 +95,29 @@ function useTransactionData({ initialState }: useTransactionDataProps = {}) {
     ...initialState,
   });
 
-  const getTransactions = React.useCallback(
-    (page: number) => {
+  React.useEffect(() => {
+    let totalPages = 0;
+
+    function getData(page: number) {
       dispatch({ type: "loading" });
       client(page).then(
         (data) => {
           dispatch({ type: "resolved", data });
+
+          totalPages = Math.round(data.totalCount / maxTransactionsPerPage);
+
+          if (page < totalPages) {
+            getData(page + 1);
+          }
         },
         (error) => {
           dispatch({ type: "rejected", error });
         }
       );
-    },
-    [dispatch]
-  );
+    }
 
-  React.useEffect(() => {
-    getTransactions(1);
-    getTransactions(2);
-    getTransactions(3);
-    getTransactions(4);
-  }, [getTransactions]);
+    getData(1);
+  }, [dispatch]);
 
   return { ...state };
 }
